@@ -214,11 +214,14 @@ def create_team(request):
       form = TeamForm(request.POST)
       if form.is_valid():
           team = form.save(commit=False)
-          team.user = request.user
+          team.owner = request.user
+          print(request.POST)
           team.save()
+          
           return redirect('/teams/details/' + str(team.id))
   else:
       form = TeamForm()
+      print(request.POST)
       context = {
           'form': form
       }
@@ -227,9 +230,10 @@ def create_team(request):
   return HttpResponse(template.render(context, request))
 
 def update_team(request, id):
-  myteam = get_object_or_404(Team, id=id, user=request.user)
+  myteam = get_object_or_404(Team, id=id, owner=request.user)
   if request.method == 'POST':
       form = TeamForm(request.POST, instance=myteam)
+      print(request.user)
       if form.is_valid():
           form.save()
           return redirect('teams_details', id=id)
@@ -244,7 +248,7 @@ def update_team(request, id):
   return HttpResponse(template.render(context, request))
 
 def delete_team(request, id):
-  myteam = get_object_or_404(Team, id=id, user=request.user)
+  myteam = get_object_or_404(Team, id=id, owner=request.user)
   if request.method == 'POST':
       myteam.delete()
       return redirect('teams')

@@ -11,7 +11,7 @@ Teams
     <h2>My Teams</h2>
     {% if myteams %}
         {% for team in myteams %}
-            <h3><a href="teams_details/{{team.id}}">{{team.name}}</a></h3>
+            <h3><a href="details/{{team.id}}">{{team.name}}</a></h3>
         {% endfor %}
     {% else %}
         <p>You have no teams</p>
