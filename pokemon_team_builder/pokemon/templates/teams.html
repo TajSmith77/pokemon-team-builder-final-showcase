@@ -3,3 +3,22 @@
 {% block title %}
 Teams
 {% endblock %}
+
+{% block content %}
+<h1 style="text-align:center">Teams</h1>
+
+{% if user.is_authenticated %}
+    <h2>My Teams</h2>
+    {% if myteams %}
+        {% for team in myteams %}
+            <h3><a href="teams_details/{{team.id}}">{{team.name}}</a></h3>
+        {% endfor %}
+    {% else %}
+        <p>You have no teams</p>
+    {% endif %}
+    <a href="{% url 'create_team' %}"><button>Create Team</button></a>
+
+
+
+{% endif %}
+{% endblock %}

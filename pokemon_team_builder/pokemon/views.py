@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.core.paginator import Paginator
@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from .forms import *
 
 def pokemon(request):
     mypokemon = Pokemon.objects.all().prefetch_related('types', 'moves', 'abilities')
@@ -193,12 +194,61 @@ def logout_page(request):
 
 @login_required
 def teams(request):
+  myteams = Team.objects.all()
   template = loader.get_template('teams.html')
   context = {
-      
+      'myteams': myteams
   }
   return HttpResponse(template.render(context, request))
 
+def teams_details(request, id):
+  myteam = Team.objects.get(id=id)
+  template = loader.get_template('teams_details.html')
+  context = {
+      'myteam': myteam
+  }
+  return HttpResponse(template.render(context, request))
+
+def create_team(request):
+  if request.method == 'POST':
+      form = TeamForm(request.POST)
+      if form.is_valid():
+          team = form.save(commit=False)
+          team.user = request.user
+          team.save()
+          return redirect('/teams/details/' + str(team.id))
+  else:
+      form = TeamForm()
+      context = {
+          'form': form
+      }
+  template = loader.get_template('create_team.html')
+ 
+  return HttpResponse(template.render(context, request))
+
+def update_team(request, id):
+  myteam = get_object_or_404(Team, id=id, user=request.user)
+  if request.method == 'POST':
+      form = TeamForm(request.POST, instance=myteam)
+      if form.is_valid():
+          form.save()
+          return redirect('teams_details', id=id)
+  else:
+      form = TeamForm(instance=myteam)
+
+      context = {
+          'form': form
+      }
+  template = loader.get_template('update_team.html')
+ 
+  return HttpResponse(template.render(context, request))
+
+def delete_team(request, id):
+  myteam = get_object_or_404(Team, id=id, user=request.user)
+  if request.method == 'POST':
+      myteam.delete()
+      return redirect('teams')
+  return redirect('teams_details', id=id)
 
 def testing(request):
   template = loader.get_template('template.html')
