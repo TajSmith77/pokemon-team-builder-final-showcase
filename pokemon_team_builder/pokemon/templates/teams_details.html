@@ -8,6 +8,7 @@
 <h1>{{myteam.name}} Details</h1>
 
 <h2>Team Members</h2>
+
 <ul>
     <li>{% if myteam.pokemon1 %}{{myteam.pokemon1.id}} {{myteam.pokemon1}} {{myteam.pokemon1.types.first}},{{myteam.pokemon1.types.last}} {% endif %}</li>
     <li>{% if myteam.pokemon2 %}{{myteam.pokemon2.id}} {{myteam.pokemon2}} {{myteam.pokemon2.types.first}},{{myteam.pokemon2.types.last}} {% endif %}</li>
@@ -17,6 +18,22 @@
     <li>{% if myteam.pokemon6 %}{{myteam.pokemon6.id}} {{myteam.pokemon6}} {{myteam.pokemon6.types.first}},{{myteam.pokemon6.types.last}} {% endif %}</li>
 </ul>
 
-<button><a href="update_team/">Edit</a></button>
-<button><a href="{% url 'delete_team' myteam.id %}">Delete</a></button>
+<button><a href="{% url 'update_team' myteam.id %}">Edit</a></button>
+<form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
+    {% csrf_token %}
+<button type="submit" class="btn btn-danger delete-btn"><a href="{% url 'delete_team' myteam.id %}">Delete</a></button>
+</form>
+
+<script>
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', event => {
+            const confirmDelete = confirm('Are you sure you want to delete this team?');
+            if (confirmDelete) {
+                const formID = this.parentNode.id;
+                const form = document.getElementById(formID);
+                form.submit();
+            }
+        });
+    });
+</script>
 {% endblock %}

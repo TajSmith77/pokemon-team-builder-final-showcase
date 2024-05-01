@@ -194,7 +194,7 @@ def logout_page(request):
 
 @login_required
 def teams(request):
-  myteams = Team.objects.all()
+  myteams = Team.objects.filter(owner=request.user)
   template = loader.get_template('teams.html')
   context = {
       'myteams': myteams
@@ -233,13 +233,48 @@ def update_team(request, id):
   myteam = get_object_or_404(Team, id=id, owner=request.user)
   if request.method == 'POST':
       form = TeamForm(request.POST, instance=myteam)
-      print(request.user)
       if form.is_valid():
           form.save()
-          return redirect('teams_details', id=id)
+          return redirect(f'/teams/details/{id}')
   else:
       form = TeamForm(instance=myteam)
-
+      print(form.instance.name)
+      print(form.instance.pokemon1)
+      print(form.instance.ability1)
+      print(form.instance.move1_1)
+      print(form.instance.move1_2)
+      print(form.instance.move1_3)
+      print(form.instance.move1_4)
+      print(form.instance.pokemon2)
+      print(form.instance.ability2)
+      print(form.instance.move2_1)
+      print(form.instance.move2_2)
+      print(form.instance.move2_3)
+      print(form.instance.move2_4)
+      print(form.instance.pokemon3)
+      print(form.instance.ability3)
+      print(form.instance.move3_1)
+      print(form.instance.move3_2)
+      print(form.instance.move3_3)
+      print(form.instance.move3_4)
+      print(form.instance.pokemon4)
+      print(form.instance.ability4)
+      print(form.instance.move4_1)
+      print(form.instance.move4_2)
+      print(form.instance.move4_3)
+      print(form.instance.move4_4)
+      print(form.instance.pokemon5)
+      print(form.instance.ability5)
+      print(form.instance.move5_1)
+      print(form.instance.move5_2)
+      print(form.instance.move5_3)
+      print(form.instance.move5_4)
+      print(form.instance.pokemon6)
+      print(form.instance.ability6)
+      print(form.instance.move6_1)
+      print(form.instance.move6_2)
+      print(form.instance.move6_3)
+      print(form.instance.move6_4)
       context = {
           'form': form
       }
@@ -252,7 +287,7 @@ def delete_team(request, id):
   if request.method == 'POST':
       myteam.delete()
       return redirect('teams')
-  return redirect('teams_details', id=id)
+  return redirect('teams')
 
 def testing(request):
   template = loader.get_template('template.html')
