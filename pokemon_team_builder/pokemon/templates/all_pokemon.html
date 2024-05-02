@@ -9,7 +9,7 @@
     <h2>{{filter_visible}}</h2>
     <!-- Filter Pokemon-->
     <form id="wholefilterform" action="{% url 'pokemon' %} " method="get">
-        <button type = "submit" id ="filterFormButton" name ="filter_visible" value="{% if filter_visible %}False{% else %}True{% endif %}">
+        <button type = "button" id ="filterFormButton" name ="filter_visible">
             {% if filter_visible %}
                 Hide Filters
             {% else %}
@@ -105,9 +105,20 @@
             </span>
         </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterFormButton = document.getElementById('filterFormButton');
+        const innerFilterForm = document.getElementById('innerfilterform');
+
+        filterFormButton.addEventListener('click', function() {
+            innerFilterForm.classList.toggle('hidden');
+            if (innerFilterForm.classList.contains('hidden')) {
+                filterFormButton.textContent = 'Show Filters';
+            } else {
+                filterFormButton.textContent = 'Hide Filters';
+        }
+    });
+    });
+</script>
 {% endblock %}
-
-{% comment "Big comments" %}
-{% endcomment %}
-
-{# inline comment#}
