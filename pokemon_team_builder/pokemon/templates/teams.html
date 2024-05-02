@@ -5,16 +5,20 @@ Teams
 {% endblock %}
 
 {% block content %}
-<h1 style="text-align:center">Teams</h1>
-
 {% if user.is_authenticated %}
-    <h2>My Teams</h2>
+    <h1 style="text-align:center">{{user.username}}'s Teams</h2>
     {% if myteams %}
+    <div class="mycardall">
+        <ul>
         {% for team in myteams %}
-            <h3><a href="details/{{team.id}}">{{team.name}}</a></h3>
+        <a href="details/{{team.id}}"><li>{{team.name}}</li></a>
         {% endfor %}
+        </ul>
+    </div>
     {% else %}
-        <p>You have no teams</p>
+        <div class="mycardall">
+            <ul><li>You have no teams</li></ul>
+        </div>
     {% endif %}
     <a href="{% url 'create_team' %}"><button>Create Team</button></a>
 

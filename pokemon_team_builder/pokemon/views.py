@@ -210,27 +210,37 @@ def teams_details(request, id):
   return HttpResponse(template.render(context, request))
 
 def create_team(request):
+  all_pokemon = Pokemon.objects.all().prefetch_related('abilities', 'moves')
+  all_abilities = Ability.objects.all().prefetch_related('pokemon')
+  all_moves = Move.objects.all().prefetch_related('pokemon')
+
   if request.method == 'POST':
       form = TeamForm(request.POST)
       if form.is_valid():
           team = form.save(commit=False)
           team.owner = request.user
-          print(request.POST)
           team.save()
           
-          return redirect('/teams/details/' + str(team.id))
+          return redirect(f'/teams/details/{team.id}')
   else:
       form = TeamForm()
-      print(request.POST)
       context = {
-          'form': form
+          'form': form,
+          'all_pokemon': all_pokemon,
+          'all_abilities': all_abilities,
+          'all_moves': all_moves
+
       }
   template = loader.get_template('create_team.html')
+
  
   return HttpResponse(template.render(context, request))
 
 def update_team(request, id):
   myteam = get_object_or_404(Team, id=id, owner=request.user)
+  all_pokemon = Pokemon.objects.all().prefetch_related('abilities', 'moves')
+  all_abilities = Ability.objects.all().prefetch_related('pokemon')
+  all_moves = Move.objects.all().prefetch_related('pokemon')
   if request.method == 'POST':
       form = TeamForm(request.POST, instance=myteam)
       if form.is_valid():
@@ -238,45 +248,12 @@ def update_team(request, id):
           return redirect(f'/teams/details/{id}')
   else:
       form = TeamForm(instance=myteam)
-      print(form.instance.name)
-      print(form.instance.pokemon1)
-      print(form.instance.ability1)
-      print(form.instance.move1_1)
-      print(form.instance.move1_2)
-      print(form.instance.move1_3)
-      print(form.instance.move1_4)
-      print(form.instance.pokemon2)
-      print(form.instance.ability2)
-      print(form.instance.move2_1)
-      print(form.instance.move2_2)
-      print(form.instance.move2_3)
-      print(form.instance.move2_4)
-      print(form.instance.pokemon3)
-      print(form.instance.ability3)
-      print(form.instance.move3_1)
-      print(form.instance.move3_2)
-      print(form.instance.move3_3)
-      print(form.instance.move3_4)
-      print(form.instance.pokemon4)
-      print(form.instance.ability4)
-      print(form.instance.move4_1)
-      print(form.instance.move4_2)
-      print(form.instance.move4_3)
-      print(form.instance.move4_4)
-      print(form.instance.pokemon5)
-      print(form.instance.ability5)
-      print(form.instance.move5_1)
-      print(form.instance.move5_2)
-      print(form.instance.move5_3)
-      print(form.instance.move5_4)
-      print(form.instance.pokemon6)
-      print(form.instance.ability6)
-      print(form.instance.move6_1)
-      print(form.instance.move6_2)
-      print(form.instance.move6_3)
-      print(form.instance.move6_4)
       context = {
-          'form': form
+          'form': form,
+          'all_pokemon': all_pokemon,
+          'all_abilities': all_abilities,
+          'all_moves': all_moves
+
       }
   template = loader.get_template('update_team.html')
  

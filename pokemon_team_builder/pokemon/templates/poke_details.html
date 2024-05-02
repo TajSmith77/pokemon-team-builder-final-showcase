@@ -31,7 +31,9 @@
             <p><strong>Moves:</strong></p>
             <ul>
                 {% for move in mypokemon.moves.all %}
-                    <li>{{ move.name }}</li>
+                    <div class="{{ move.type.name }}">
+                        <li>{{ move.name }}</li>
+                    </div>
                 {% endfor %}
             </ul>
     </div>

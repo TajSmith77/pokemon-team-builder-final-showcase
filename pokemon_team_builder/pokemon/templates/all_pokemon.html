@@ -6,7 +6,6 @@
 
 {% block content %}
     <h1 style="text-align:center">Pokemon</h1>
-    <h2>{{filter_visible}}</h2>
     <!-- Filter Pokemon-->
     <form id="wholefilterform" action="{% url 'pokemon' %} " method="get">
         <button type = "button" id ="filterFormButton" name ="filter_visible">
