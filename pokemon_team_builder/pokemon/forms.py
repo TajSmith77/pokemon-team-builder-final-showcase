@@ -53,3 +53,14 @@ class TeamForm(forms.ModelForm):
             self.fields['move6_2'].initial = instance.move6_2
             self.fields['move6_3'].initial = instance.move6_3
             self.fields['move6_4'].initial = instance.move6_4
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name']
+
+class UserDeleteForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password']

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -193,6 +193,63 @@ def logout_page(request):
     return redirect('/login/') # Redirect to the login page upon pass
 
 @login_required
+def profile(request):
+  template = loader.get_template('profile.html')
+  context = {
+      
+  }
+  return HttpResponse(template.render(context, request))
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.info(request, "Profile edited successfully!")
+            return redirect('/profile/')
+    else:
+        form = UserEditForm(instance=request.user)
+    template = loader.get_template('edit_profile.html')
+    context = {
+        'form': form
+    }
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def delete_profile(request):
+    if request.method == "POST":
+        form = UserDeleteForm(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Check if a user with the provided username exists
+        if not User.objects.filter(username=username).exists():
+            # Display an error message if the username does not exist
+            messages.error(request, 'Invalid Username')
+            return redirect('/profile/delete_profile/')
+         
+        # Authenticate the user with the provided username and password
+        user = authenticate(username=username, password=password)
+         
+        if user is None:
+            # Display an error message if authentication fails (invalid password)
+            messages.error(request, "Invalid Password")
+            return redirect('/profile/delete_profile/')
+        else:
+            # Delete the user
+            if user.username == request.user.username:
+                user.delete()
+                messages.info(request, "Profile deleted successfully!")
+                return redirect('/login/')
+            else:
+                messages.error(request, "You can only delete your own profile!")
+    return render(request, 'delete_profile.html')
+
+
+
+@login_required
 def teams(request):
   myteams = Team.objects.filter(owner=request.user)
   template = loader.get_template('teams.html')
@@ -265,6 +322,20 @@ def delete_team(request, id):
       myteam.delete()
       return redirect('teams')
   return redirect('teams')
+
+def get_pokemon_data(request):
+  pokemon_data = {}
+  pokemons = Pokemon.objects.all()
+  for pokemon in pokemons:
+      abilities = list(pokemon.abilities.values('id', 'name'))
+      moves = list(pokemon.moves.values('id', 'name'))
+      pokemon_data[pokemon.id] = {
+          'name': pokemon.name,
+          'abilities': abilities,
+          'moves': moves
+      }
+  return JsonResponse({'pokemon_data': pokemon_data})
+  
 
 def testing(request):
   template = loader.get_template('template.html')
