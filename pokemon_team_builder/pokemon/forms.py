@@ -53,7 +53,3 @@ class TeamForm(forms.ModelForm):
             self.fields['move6_2'].initial = instance.move6_2
             self.fields['move6_3'].initial = instance.move6_3
             self.fields['move6_4'].initial = instance.move6_4
-            
-        
-            
-    

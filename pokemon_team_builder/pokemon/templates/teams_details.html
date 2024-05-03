@@ -8,7 +8,13 @@
 
 <h1 style="text-align:center">{{myteam.name}} Members</h2>
 
-
+    <span class="editdelete">
+        <a href="{% url 'update_team' myteam.id %}"><button>Edit</button></a>
+        <form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
+        {% csrf_token %}
+        <a href="{% url 'delete_team' myteam.id %}"><button type="submit" class="btn btn-danger delete-btn">Delete</button></a>
+        </form>
+    </span>
     <ul>
         <div class ="mycard{{ myteam.pokemon1.types.all.0.name }}">
             <li>{% if myteam.pokemon1 %}
@@ -154,11 +160,7 @@
             </li>
         </div>
     </ul>
-<button><a href="{% url 'update_team' myteam.id %}">Edit</a></button>
-<form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
-    {% csrf_token %}
-<button type="submit" class="btn btn-danger delete-btn"><a href="{% url 'delete_team' myteam.id %}">Delete</a></button>
-</form>
+
 
 <script>
     document.querySelectorAll('.delete-btn').forEach(button => {
