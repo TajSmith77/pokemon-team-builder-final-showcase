@@ -1,11 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[id^="id_pokemon"]').forEach(select => {
+        var pokemonId = parseInt(select.value);
+        var wholeid = String(select.id);
+        var idint = wholeid[wholeid.length - 1];
+        populateAbilitiesAndMoves(pokemonId, idint);
+        })
+    document.querySelectorAll('[id^="id_pokemon"]').forEach(select => {
         select.addEventListener('change', function() {
             var pokemonId = parseInt(this.value);
             var wholeid = String(this.id);
             var idint = wholeid[wholeid.length - 1];
-            console.log(idint) 
-            var abilityFieldId = 'id_ability' + idint;
+            populateAbilitiesAndMoves(pokemonId, idint);
+        })
+    })
+    function populateAbilitiesAndMoves(pokemonId, idint) {
+        var abilityFieldId = 'id_ability' + idint;
             var moveFieldBaseId = 'id_move' + idint + '_';
 
             // AJAX request to fetch data for the selected Pokémon from get pokemon data view
@@ -14,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 var abilities = data.pokemon_data.abilities;
                 var moves = data.pokemon_data.moves;
-                console.log(abilityFieldId);
 
                 // Populate the abilities dropdown
                 var abilityField = document.getElementById(abilityFieldId);
@@ -30,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 for (var i = 1; i <= 4; i++) {
                     var moveFieldId = moveFieldBaseId + i;
                     var moveField = document.getElementById(moveFieldId);
-                    console.log(moveFieldId);
                     moveField.innerHTML = "";
                     moves.forEach(function(move) {
                         var option = document.createElement('option');
@@ -41,6 +48,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => console.error('Error fetching pokemon data', error));
-        });
+        }
     });
-});
