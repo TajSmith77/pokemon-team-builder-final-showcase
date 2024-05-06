@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 from .models import *
 from .forms import *
 
@@ -319,22 +320,24 @@ def update_team(request, id):
 def delete_team(request, id):
   myteam = get_object_or_404(Team, id=id, owner=request.user)
   if request.method == 'POST':
-      myteam.delete()
-      return redirect('teams')
+    myteam.delete()
+    return redirect('teams')
   return redirect('teams')
 
-def get_pokemon_data(request):
-  pokemon_data = {}
-  pokemons = Pokemon.objects.all()
-  for pokemon in pokemons:
-      abilities = list(pokemon.abilities.values('id', 'name'))
-      moves = list(pokemon.moves.values('id', 'name'))
-      pokemon_data[pokemon.id] = {
-          'name': pokemon.name,
-          'abilities': abilities,
-          'moves': moves
-      }
-  return JsonResponse({'pokemon_data': pokemon_data})
+def get_pokemon_data(request, pokemon_id):
+  try:  
+    pokemon = Pokemon.objects.get(id=pokemon_id)
+    abilities = Ability.objects.filter(pokemon=pokemon).values('id','name')
+    moves = Move.objects.filter(pokemon=pokemon).values('id','name')
+    pokemon_data = {
+        'name': pokemon.name,
+        'abilities': list(abilities),
+        'moves': list(moves)
+        }
+    return JsonResponse({'pokemon_data': pokemon_data})
+  
+  except Pokemon.DoesNotExist:
+    return JsonResponse({'error': 'Pokemon not found'}, status=404)
   
 
 def testing(request):

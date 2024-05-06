@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% load static %}
 
 {% block title %}
 Create Team
@@ -168,44 +169,7 @@ Create Team
         </form>
     </form>
 
-    <!--TODO: javascript to filter the abilities and moves based on the selected pokemon-->
-    <script>
-       document.addEventListener('DOMContentLoaded', function() {
-           fetch('{% url "get_pokemon_data" %}')
-           .then(response => response.json())
-           .then(data => {
-                document.querySelectorAll(`select[id^=id_pokemon]`).forEach(select => {
-                    select.addEventListener('change', function() {
-                        var pokemonId = parseInt(this.value);
-                        var abilityFieldId = this.id.replace('pokemon', 'ability');
-                        var moveFieldId = this.id.replace('pokemon', 'move') + '_1';
-
-                        var abilities = data[pokemonId].abilities;
-                        var abilityField = document.getElementById(abilityFieldId);
-                        abilityField.innerHTML = "";
-                        abilities.forEach(function(ability) {
-                            var option = document.createElement('option');
-                            option.value = ability.id;
-                            option.text = ability.name;
-                            abilityField.appendChild(option);
-                        });
-
-                        moves = data[pokemonId].moves;
-                        moveField = document.getElementById(moveFieldId);
-                        moveField.innerHTML = "";
-                        moves.forEach(function(move) {
-                            var option = document.createElement('option');
-                            option.value = move.id;
-                            option.text = move.name;
-                            moveField.appendChild(option);
-                        });
-                    });
-                });
-            })
-            .catch(error => console.error('Error fetching pokemon data',error));
-       });
-       
-    </script>
+    <script src="{% static 'teamform.js' %}"></script>
 
 {% endblock %}
 
