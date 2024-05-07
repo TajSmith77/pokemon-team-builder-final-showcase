@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from .models import *
 from .forms import *
+import csv
+import json
 
 def pokemon(request):
     mypokemon = Pokemon.objects.all().prefetch_related('types', 'moves', 'abilities')
@@ -349,8 +351,7 @@ def update_team(request, id):
           'all_pokemon': all_pokemon,
           'all_abilities': all_abilities,
           'all_moves': all_moves
-
-      }
+        }
   template = loader.get_template('update_team.html')
  
   return HttpResponse(template.render(context, request))
@@ -377,6 +378,100 @@ def get_pokemon_data(request, pokemon_id):
   except Pokemon.DoesNotExist:
     return JsonResponse({'error': 'Pokemon not found'}, status=404)
   
+def export_team_json(request, id):
+  myteam = get_object_or_404(Team, id=id, owner=request.user)
+  team_data = {
+      'name': myteam.name,
+      'pokemon1': myteam.pokemon1,
+      'ability1': myteam.ability1,
+      'move1_1': myteam.move1_1,
+      'move1_2': myteam.move1_2,
+      'move1_3': myteam.move1_3,
+      'move1_4': myteam.move1_4,
+      'pokemon2': myteam.pokemon2,
+      'ability2': myteam.ability2,
+      'move2_1': myteam.move2_1,
+      'move2_2': myteam.move2_2,
+      'move2_3': myteam.move2_3,
+      'move2_4': myteam.move2_4,
+      'pokemon3': myteam.pokemon3,
+      'ability3': myteam.ability3,
+      'move3_1': myteam.move3_1,
+      'move3_2': myteam.move3_2,
+      'move3_3': myteam.move3_3,
+      'move3_4': myteam.move3_4,
+      'pokemon4': myteam.pokemon4,
+      'ability4': myteam.ability4,
+      'move4_1': myteam.move4_1,
+      'move4_2': myteam.move4_2,
+      'move4_3': myteam.move4_3,
+      'move4_4': myteam.move4_4,
+      'pokemon5': myteam.pokemon5,
+      'ability5': myteam.ability5,
+      'move5_1': myteam.move5_1,
+      'move5_2': myteam.move5_2,
+      'move5_3': myteam.move5_3,
+      'move5_4': myteam.move5_4,
+      'pokemon6': myteam.pokemon6,
+      'ability6': myteam.ability6,
+      'move6_1': myteam.move6_1,
+      'move6_2': myteam.move6_2,
+      'move6_3': myteam.move6_3,
+      'move6_4': myteam.move6_4
+    }
+
+  team_json = json.dumps(team_data)
+
+  return HttpResponse(team_json, content_type='application/json')
+
+def export_team_csv(request, id):
+  myteam = get_object_or_404(Team, id=id, owner=request.user)
+  team_data = {
+      'name': myteam.name,
+      'pokemon1': myteam.pokemon1,
+      'ability1': myteam.ability1,
+      'move1_1': myteam.move1_1,
+      'move1_2': myteam.move1_2,
+      'move1_3': myteam.move1_3,
+      'move1_4': myteam.move1_4,
+      'pokemon2': myteam.pokemon2,
+      'ability2': myteam.ability2,
+      'move2_1': myteam.move2_1,
+      'move2_2': myteam.move2_2,
+      'move2_3': myteam.move2_3,
+      'move2_4': myteam.move2_4,
+      'pokemon3': myteam.pokemon3,
+      'ability3': myteam.ability3,
+      'move3_1': myteam.move3_1,
+      'move3_2': myteam.move3_2,
+      'move3_3': myteam.move3_3,
+      'move3_4': myteam.move3_4,
+      'pokemon4': myteam.pokemon4,
+      'ability4': myteam.ability4,
+      'move4_1': myteam.move4_1,
+      'move4_2': myteam.move4_2,
+      'move4_3': myteam.move4_3,
+      'move4_4': myteam.move4_4,
+      'pokemon5': myteam.pokemon5,
+      'ability5': myteam.ability5,
+      'move5_1': myteam.move5_1,
+      'move5_2': myteam.move5_2,
+      'move5_3': myteam.move5_3,
+      'move5_4': myteam.move5_4,
+      'pokemon6': myteam.pokemon6,
+      'ability6': myteam.ability6,
+      'move6_1': myteam.move6_1,
+      'move6_2': myteam.move6_2,
+      'move6_3': myteam.move6_3,
+      'move6_4': myteam.move6_4,
+    }
+  filename = f'{myteam.name}_team.csv'  
+  response = HttpResponse(content_type='text/csv')
+  response['Content-Disposition'] = f'attachment; filename="{filename}"'
+  writer = csv.writer(response)
+  writer.writerow(team_data.keys())
+  writer.writerow(team_data.values())
+  return response
 
 def testing(request):
   template = loader.get_template('template.html')
