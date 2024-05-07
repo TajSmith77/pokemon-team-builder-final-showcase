@@ -93,6 +93,37 @@ class TestPokemonApp(unittest.TestCase):
         self.assertEqual(self.driver.title, "Login")
         self.assertEqual(self.driver.find_element(By.LINK_TEXT, "LOGIN").text, "LOGIN")
 
+
+    def test_pokemon(self):
+        nav_button = self.driver.find_element(By.LINK_TEXT, "POKEMON")
+        nav_button.click()
+        self.assertEqual(self.driver.title, "Pokedex")
+        show_filters_button = self.driver.find_element(By.ID, "filterFormButton")
+        show_filters_button.click()
+        type_filter = self.driver.find_element(By.NAME, "type")
+        type_filter.click()
+        type_filter_option = type_filter.find_elements(By.TAG_NAME, "option")[1]
+        type_filter_option.click()
+        time.sleep(1)
+        ability_filter = self.driver.find_element(By.NAME, "ability")
+        ability_filter.click()
+        ability_filter_option = ability_filter.find_elements(By.TAG_NAME, "option")[1]
+        ability_filter_option.click()
+        time.sleep(1)
+        apply_button = self.driver.find_element(By.ID, "filter_form_submit_button")
+        apply_button.click()
+        self.assertEqual(self.driver.title, "Pokedex")
+        next_page_button = self.driver.find_element(By.LINK_TEXT, "next")
+        next_page_button.click()
+        self.assertEqual(self.driver.title, "Pokedex")
+        serperior_button = self.driver.find_element(By.LINK_TEXT, "#497 | serperior | grass")
+        serperior_button.click()
+        self.assertEqual(self.driver.title, "serperior Details")
+        back_button = self.driver.find_element(By.LINK_TEXT, "Back to all Pokemon")
+        back_button.click()
+        self.assertEqual(self.driver.title, "Pokedex")
+        self.driver.close()
+
     def test_team(self):
         nav_button = self.driver.find_element(By.LINK_TEXT, "TEAMS")
         nav_button.click()
@@ -375,5 +406,5 @@ if __name__ == "__main__":
     runner = unittest.TextTestRunner(verbosity=2)
 
     suite = unittest.TestSuite()
-    suite.addTest(TestPokemonApp("test_profile"))
+    suite.addTest(TestPokemonApp("test_pokemon"))
     runner.run(suite)
