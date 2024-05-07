@@ -64,3 +64,9 @@ class UserDeleteForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+class MoveFilterForm(forms.Form):
+    move_name = forms.ModelChoiceField(queryset=Move.objects.all(), required=False)
+    move_type = forms.ModelChoiceField(queryset=Type.objects.all(), required=False)
+    min_damage = forms.IntegerField(required=False)
+    

@@ -101,11 +101,49 @@ def pokemon(request):
     }
     return HttpResponse(template.render(context, request))
 
-def details(request, id):
+def poke_details(request, id):
     mypokemon = Pokemon.objects.get(id=id)
     template = loader.get_template('poke_details.html')
     context = {
-        'mypokemon': mypokemon
+        'mypokemon': mypokemon,
+
+    }
+    return HttpResponse(template.render(context, request))
+
+def moves(request):
+    mymove = Move.objects.all()
+    form = MoveFilterForm()
+    name_query = request.GET.get('move_name')
+    if name_query:
+        print(name_query)
+        name_query = name_query.strip().lower()
+        mymove = mymove.filter(id=name_query)
+    type_query = request.GET.get('move_type')
+    if type_query:
+        mymove = mymove.filter(type=type_query)
+    min_damage_query = request.GET.get('min_damage')
+    if min_damage_query:
+        mymove = mymove.filter(power__gte=min_damage_query)
+    per_page = int(request.GET.get('per_page', 50))
+    paginator = Paginator(mymove, per_page)
+    page_number = request.GET.get('page')
+    move_page = paginator.get_page(page_number)
+    template = loader.get_template('moves.html')
+    context = {
+        'mymove': mymove,
+        'move_page': move_page,
+        'per_page': per_page,
+        'name_query': name_query,
+        'type_query': type_query,
+        'min_damage_query': min_damage_query,
+        'form': form
+    }
+    return HttpResponse(template.render(context, request))
+def move_details(request, id):
+    mymove = Move.objects.get(id=id)
+    template = loader.get_template('move_details.html')
+    context = {
+        'mymove': mymove
     }
     return HttpResponse(template.render(context, request))
 
