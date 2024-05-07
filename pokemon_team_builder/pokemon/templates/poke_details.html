@@ -37,18 +37,5 @@
                 {% endfor %}
             </ul>
     </div>
-    <a href="{% url 'pokemon' %}?{% if poke_page %}page={{ poke_page.number|urlencode }}{% endif %}
-    {% if name_query %}poke_name={{ name_query|urlencode }}{% endif %}
-    {% if pokedex_number_query %}&pokedex_number={{ pokedex_number_query|urlencode }}{% endif %}
-    {% if type_query %}&type={{ type_query|urlencode }}{% endif %}
-    {% if ability_query %}&ability={{ ability_query|urlencode }}{% endif %}
-    {% if move_query %}&move={{ move_query|urlencode }}{% endif %}
-    {% if hp_query %}&min_hp={{ hp_query|urlencode }}{% endif %}
-    {% if attack_query %}&min_attack={{ attack_query|urlencode }}{% endif %}
-    {% if defense_query %}&min_defense={{ defense_query|urlencode }}{% endif %}
-    {% if special_attack_query %}&min_special_attack={{ special_attack_query|urlencode }}{% endif %}
-    {% if special_defense_query %}&min_special_defense={{ special_defense_query|urlencode }}{% endif %}
-    {% if speed_query %}&min_speed={{ speed_query|urlencode }}{% endif %}
-    {% if sort_by %}&sort_by={{ sort_by|urlencode }}{% endif %}
-    {% if per_page %}&per_page={{ per_page|urlencode }}{% endif %}"><button>Back to all Pokemon</button></a>
+    <a href="{% url 'pokemon' %}"><button>Back to all Pokemon</button></a>
 {% endblock %}

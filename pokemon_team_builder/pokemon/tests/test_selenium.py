@@ -3,6 +3,8 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
@@ -91,7 +93,7 @@ class TestPokemonApp(unittest.TestCase):
         self.assertEqual(self.driver.title, "Login")
         self.assertEqual(self.driver.find_element(By.LINK_TEXT, "LOGIN").text, "LOGIN")
 
-    def test_create_team(self):
+    def test_team(self):
         nav_button = self.driver.find_element(By.LINK_TEXT, "TEAMS")
         nav_button.click()
         if self.driver.find_element(By.LINK_TEXT, "LOGIN").text == "LOGIN":
@@ -112,13 +114,14 @@ class TestPokemonApp(unittest.TestCase):
         pokemon1_dropdown.click()
         pokemon1_option = pokemon1_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon1_option.click()
+        time.sleep(1)
         ability1_dropdown = self.driver.find_element(By.ID, "id_ability1")
         ability1_dropdown.click()
         ability1_option = ability1_dropdown.find_elements(By.TAG_NAME, "option")[1]
         ability1_option.click()
         move1_1_dropdown = self.driver.find_element(By.ID, "id_move1_1")
         move1_1_dropdown.click()
-        move1_1_option = move1_1_dropdown.find_elements(By.TAG_NAME, "option")[1]
+        move1_1_option = move1_1_dropdown.find_elements(By.TAG_NAME, "option")[3]
         move1_1_option.click()
         move1_2_dropdown = self.driver.find_element(By.ID, "id_move1_2")
         move1_2_dropdown.click()
@@ -136,6 +139,7 @@ class TestPokemonApp(unittest.TestCase):
         pokemon2_dropdown.click()
         pokemon2_option = pokemon2_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon2_option.click()
+        time.sleep(1)
         ability2_dropdown = self.driver.find_element(By.ID, "id_ability2")
         ability2_dropdown.click()
         ability2_option = pokemon2_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -160,6 +164,7 @@ class TestPokemonApp(unittest.TestCase):
         pokemon3_dropdown.click()
         pokemon3_option = pokemon3_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon3_option.click()
+        time.sleep(1)
         ability3_dropdown = self.driver.find_element(By.ID, "id_ability3")
         ability3_dropdown.click()
         ability3_option = pokemon3_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -184,6 +189,7 @@ class TestPokemonApp(unittest.TestCase):
         pokemon4_dropdown.click()
         pokemon4_option = pokemon4_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon4_option.click()
+        time.sleep(1)
         ability4_dropdown = self.driver.find_element(By.ID, "id_ability4")
         ability4_dropdown.click()
         ability4_option = pokemon4_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -208,6 +214,7 @@ class TestPokemonApp(unittest.TestCase):
         pokemon5_dropdown.click()
         pokemon5_option = pokemon5_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon5_option.click()
+        time.sleep(1)
         ability5_dropdown = self.driver.find_element(By.ID, "id_ability5")
         ability5_dropdown.click()
         ability5_option = pokemon5_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -232,6 +239,7 @@ class TestPokemonApp(unittest.TestCase):
         pokemon6_dropdown.click()
         pokemon6_option = pokemon6_dropdown.find_elements(By.TAG_NAME, "option")[1]
         pokemon6_option.click()
+        time.sleep(1)
         ability6_dropdown = self.driver.find_element(By.ID, "id_ability6")
         ability6_dropdown.click()
         ability6_option = pokemon6_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -254,7 +262,112 @@ class TestPokemonApp(unittest.TestCase):
         move6_4_option.click()
         create_team_button = self.driver.find_element(By.NAME, "CreateTeam")
         create_team_button.click()
-        self.assertEqual(self.driver.title, "Create Team")
+        self.assertEqual(self.driver.title, "test team Details")
+        edit_team_button = self.driver.find_element(By.ID, "edit_team_button")
+        edit_team_button.click()
+        self.assertEqual(self.driver.title, "Edit Team")
+        pokemon1_dropdown = self.driver.find_element(By.ID, "id_pokemon1")
+        pokemon1_dropdown.click()
+        pokemon1_option = pokemon1_dropdown.find_elements(By.TAG_NAME, "option")[5]
+        pokemon1_option.click()
+        submit_team_button = self.driver.find_element(By.ID, "edit_team_submit_button")
+        submit_team_button.click()
+        self.assertEqual(self.driver.find_element(By.TAG_NAME, "h1").text, "test team Members", )
+        delete_team_button = self.driver.find_element(By.ID, "delete_team_button")
+        delete_team_button.click()
+        alert = WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        alert.accept()
+        self.assertEqual(self.driver.title, "Teams")
+        self.driver.quit()
+    
+    def test_moves(self):
+        moves_nav = self.driver.find_element(By.LINK_TEXT, "MOVES")
+        moves_nav.click()
+        self.assertEqual(self.driver.title, "Moves")
+        show_filters_button = self.driver.find_element(By.ID, "movesfilterFormButton")
+        show_filters_button.click()
+        move_type_filter = self.driver.find_element(By.ID, "id_move_type")
+        move_type_filter.click()
+        move_type_option = move_type_filter.find_elements(By.TAG_NAME, "option")[1]
+        move_type_option.click()
+        search_button = self.driver.find_element(By.ID, "movesfilterFormSubmit")
+        search_button.click()
+        self.assertEqual(self.driver.title, "Moves")
+        next_page_button = self.driver.find_element(By.LINK_TEXT, "Next")
+        next_page_button.click()
+        self.assertEqual(self.driver.title, "Moves")
+        syrup_bomb = self.driver.find_element(By.LINK_TEXT, "syrup-bomb | grass",)
+        syrup_bomb.click()
+        self.assertEqual(self.driver.title, "syrup-bomb Details")
+        back_button = self.driver.find_element(By.ID, "back_to_moves_button")
+        back_button.click()
+        self.assertEqual(self.driver.title, "Moves")
+        self.driver.quit()
+
+    def test_profile(self):
+        login_button = self.driver.find_element(By.LINK_TEXT, "LOGIN")
+        login_button.click()
+        self.assertEqual(self.driver.title, "Login")
+        register_button = self.driver.find_element(By.LINK_TEXT, "Register")
+        register_button.click()
+        self.assertEqual(self.driver.title, "Registration Form")
+        username_input = self.driver.find_element(By.NAME, "username")
+        username_input.clear()
+        username_input.send_keys("Seleniumtestuser")
+        firstname_input = self.driver.find_element(By.NAME, "first_name")
+        firstname_input.clear()
+        firstname_input.send_keys("Selenium")
+        lastname_input = self.driver.find_element(By.NAME, "last_name")
+        lastname_input.clear()
+        lastname_input.send_keys("Test")
+        password_input = self.driver.find_element(By.NAME, "password")
+        password_input.clear()
+        password_input.send_keys("password1!")
+        submit_button = self.driver.find_element(By.ID, "register_submit_button")
+        submit_button.click()
+        time.sleep(2)
+        self.assertEqual(self.driver.title, "Login")
+        username_input = self.driver.find_element(By.NAME, "username")
+        username_input.clear()
+        username_input.send_keys("Seleniumtestuser")
+        password_input = self.driver.find_element(By.NAME, "password")
+        password_input.clear()
+        password_input.send_keys("password1!")
+        login_submit_button = self.driver.find_element(By.ID, "login_submit_button")
+        login_submit_button.click()
+        time.sleep(3)
+        profile_nav = self.driver.find_element(By.LINK_TEXT, "PROFILE")
+        profile_nav.click()
+        self.assertEqual(self.driver.title, "Seleniumtestuser's Profile")
+        edit_profile_button = self.driver.find_element(By.ID, "edit_profile_button")
+        edit_profile_button.click()
+        self.assertEqual(self.driver.title, "Edit Profile")
+        firstname_input = self.driver.find_element(By.ID, "id_first_name")
+        firstname_input.clear()
+        firstname_input.send_keys("firstSelenium")
+        lastname_input = self.driver.find_element(By.ID, "id_last_name")
+        lastname_input.clear()
+        lastname_input.send_keys("lastSelenium")
+        submit_profile_button = self.driver.find_element(By.ID, "edit_profile_submit_button")
+        submit_profile_button.click()
+        self.assertEqual(self.driver.title, "Seleniumtestuser's Profile")
+        self.assertEqual(self.driver.find_element(By.TAG_NAME, "h1").text, "Seleniumtestuser's Profile", )
+        self.assertEqual(self.driver.find_element(By.TAG_NAME, "li").text, "Name: firstSelenium, lastSelenium", )
+        delete_profile_button = self.driver.find_element(By.ID, "delete_profile_button")
+        delete_profile_button.click()
+        username_input = self.driver.find_element(By.NAME, "username")
+        username_input.clear()
+        username_input.send_keys("Seleniumtestuser")
+        password_input = self.driver.find_element(By.NAME, "password")
+        password_input.clear()
+        password_input.send_keys("password1!")
+        delete_submit_button = self.driver.find_element(By.ID, "delete_profile_submit_button")
+        delete_submit_button.click()
+        self.assertEqual(self.driver.title, "Login")
+        self.driver.quit()
+
+    
+
 
 if __name__ == "__main__":
     loader = unittest.TestLoader()
@@ -262,5 +375,5 @@ if __name__ == "__main__":
     runner = unittest.TextTestRunner(verbosity=2)
 
     suite = unittest.TestSuite()
-    suite.addTest(TestPokemonApp("test_create_team"))
+    suite.addTest(TestPokemonApp("test_profile"))
     runner.run(suite)

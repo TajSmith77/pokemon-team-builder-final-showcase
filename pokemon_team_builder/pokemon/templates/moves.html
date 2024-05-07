@@ -17,7 +17,7 @@
     <div id="movesinnerfilterform" {% if not filter_visible %}class="hidden" {% endif %}>
         <form method="get">
             {{ form.as_p }}
-            <button type="submit">Search</button>
+            <button type="submit" id="movesfilterFormSubmit">Search</button>
             <a href="{% url 'moves' %}"><button>Reset</button></a>
         </form>
     </div>
@@ -32,7 +32,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="pagination" >
+    <div class="pagination">
         <span class="step-links">
             {% if move_page.has_previous %}
                 <a href="?page=1

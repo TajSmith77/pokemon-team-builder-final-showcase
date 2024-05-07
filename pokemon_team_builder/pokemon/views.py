@@ -221,7 +221,7 @@ def register_page(request):
          
         # Display an information message indicating successful account creation
         messages.info(request, "Account created Successfully!")
-        return redirect('/register/')
+        return redirect('/login/')
      
     # Render the registration page template (GET request)
     return render(request, 'register.html')
@@ -381,44 +381,261 @@ def get_pokemon_data(request, pokemon_id):
 def export_team_json(request, id):
   myteam = get_object_or_404(Team, id=id, owner=request.user)
   team_data = {
-      'name': myteam.name,
-      'pokemon1': myteam.pokemon1,
-      'ability1': myteam.ability1,
-      'move1_1': myteam.move1_1,
-      'move1_2': myteam.move1_2,
-      'move1_3': myteam.move1_3,
-      'move1_4': myteam.move1_4,
-      'pokemon2': myteam.pokemon2,
-      'ability2': myteam.ability2,
-      'move2_1': myteam.move2_1,
-      'move2_2': myteam.move2_2,
-      'move2_3': myteam.move2_3,
-      'move2_4': myteam.move2_4,
-      'pokemon3': myteam.pokemon3,
-      'ability3': myteam.ability3,
-      'move3_1': myteam.move3_1,
-      'move3_2': myteam.move3_2,
-      'move3_3': myteam.move3_3,
-      'move3_4': myteam.move3_4,
-      'pokemon4': myteam.pokemon4,
-      'ability4': myteam.ability4,
-      'move4_1': myteam.move4_1,
-      'move4_2': myteam.move4_2,
-      'move4_3': myteam.move4_3,
-      'move4_4': myteam.move4_4,
-      'pokemon5': myteam.pokemon5,
-      'ability5': myteam.ability5,
-      'move5_1': myteam.move5_1,
-      'move5_2': myteam.move5_2,
-      'move5_3': myteam.move5_3,
-      'move5_4': myteam.move5_4,
-      'pokemon6': myteam.pokemon6,
-      'ability6': myteam.ability6,
-      'move6_1': myteam.move6_1,
-      'move6_2': myteam.move6_2,
-      'move6_3': myteam.move6_3,
-      'move6_4': myteam.move6_4
-    }
+      'team_name': myteam.name,
+      'pokemon1': {
+          'name': myteam.pokemon1.name,
+      },
+      'ability1': {
+          'name': myteam.ability1.name
+      },
+      'move1_1': {
+          'name': myteam.move1_1.name,
+          'type': {
+              'name': myteam.move1_1.type.name
+          },
+          'power': myteam.move1_1.power,
+          'accuracy': myteam.move1_1.accuracy,
+          'pp': myteam.move1_1.pp
+      },
+      'move1_2': {
+          'name': myteam.move1_2.name,
+          'type': {
+              'name': myteam.move1_2.type.name
+          },
+          'power': myteam.move1_2.power,
+          'accuracy': myteam.move1_2.accuracy,
+          'pp': myteam.move1_2.pp
+      },
+      'move1_3': {
+          'name': myteam.move1_3.name,
+          'type': {
+              'name': myteam.move1_3.type.name
+          },
+          'power': myteam.move1_3.power,
+          'accuracy': myteam.move1_3.accuracy,
+          'pp': myteam.move1_3.pp
+      },
+      'move1_4': {
+          'name': myteam.move1_4.name,
+          'type': {
+              'name': myteam.move1_4.type.name
+          },
+          'power': myteam.move1_4.power,
+          'accuracy': myteam.move1_4.accuracy,
+          'pp': myteam.move1_4.pp
+      },
+      'pokemon2': {
+          'name': myteam.pokemon2.name,
+      },
+      'ability2':{
+          'name': myteam.ability2.name
+      },
+      'move2_1': {
+          'name': myteam.move2_1.name,
+          'type': {
+              'name': myteam.move2_1.type.name
+          },
+          'power': myteam.move2_1.power,
+          'accuracy': myteam.move2_1.accuracy,
+          'pp': myteam.move2_1.pp
+      },
+      'move2_2': {
+          'name': myteam.move2_2.name,
+          'type': {
+              'name': myteam.move2_2.type.name
+          },
+          'power': myteam.move2_2.power,
+          'accuracy': myteam.move2_2.accuracy,
+          'pp': myteam.move2_2.pp
+      },
+      'move2_3': {
+          'name': myteam.move2_3.name,
+          'type': {
+              'name': myteam.move2_3.type.name
+          },
+          'power': myteam.move2_3.power,
+          'accuracy': myteam.move2_3.accuracy,
+          'pp': myteam.move2_3.pp
+      },
+      'move2_4': {
+          'name': myteam.move2_4.name,
+          'type': {
+              'name': myteam.move2_4.type.name
+          },
+          'power': myteam.move2_4.power,
+          'accuracy': myteam.move2_4.accuracy,
+          'pp': myteam.move2_4.pp
+      },
+      'pokemon3': {
+          'name': myteam.pokemon3.name, 
+      },
+      'ability3': {
+          'name': myteam.ability3.name
+      },
+      'move3_1': {
+          'name': myteam.move3_1.name,
+          'type': {
+              'name': myteam.move3_1.type.name
+          },
+          'power': myteam.move3_1.power,
+          'accuracy': myteam.move3_1.accuracy,
+          'pp': myteam.move3_1.pp
+      },
+      'move3_2': {
+          'name': myteam.move3_2.name,
+          'type': {
+              'name': myteam.move3_2.type.name
+          },
+          'power': myteam.move3_2.power,
+          'accuracy': myteam.move3_2.accuracy,
+          'pp': myteam.move3_2.pp
+      },
+      'move3_3': {
+          'name': myteam.move3_3.name,
+          'type': {
+              'name': myteam.move3_3.type.name
+          },
+          'power': myteam.move3_3.power,
+          'accuracy': myteam.move3_3.accuracy,
+          'pp': myteam.move3_3.pp
+      },
+      'move3_4': {
+          'name': myteam.move3_4.name,
+          'type': {
+              'name': myteam.move3_4.type.name
+          },
+          'power': myteam.move3_4.power,
+          'accuracy': myteam.move3_4.accuracy,
+          'pp': myteam.move3_4.pp
+      },
+      'pokemon4': {
+          'name': myteam.pokemon4.name,
+      },
+      'ability4': {
+          'name': myteam.ability4.name
+      },
+      'move4_1': {
+          'name': myteam.move4_1.name,
+          'type': {
+              'name': myteam.move4_1.type.name
+          },
+          'power': myteam.move4_1.power,
+          'accuracy': myteam.move4_1.accuracy,
+          'pp': myteam.move4_1.pp
+      },
+      'move4_2': {
+          'name': myteam.move4_2.name,
+          'type': {
+              'name': myteam.move4_2.type.name
+          },
+          'power': myteam.move4_2.power,
+          'accuracy': myteam.move4_2.accuracy,
+          'pp': myteam.move4_2.pp
+      },
+      'move4_3': {
+          'name': myteam.move4_3.name,
+          'type': {
+              'name': myteam.move4_3.type.name
+          },
+          'power': myteam.move4_3.power,
+          'accuracy': myteam.move4_3.accuracy,
+          'pp': myteam.move4_3.pp
+      },
+      'move4_4': {
+          'name': myteam.move4_4.name,
+          'type': {
+              'name': myteam.move4_4.type.name
+          },
+          'power': myteam.move4_4.power,
+          'accuracy': myteam.move4_4.accuracy,
+          'pp': myteam.move4_4.pp
+      },
+      'pokemon5': {
+          'name': myteam.pokemon5.name,
+      },
+      'ability5': {
+          'name': myteam.ability5.name
+      },
+      'move5_1': {
+          'name': myteam.move5_1.name,
+          'type': {
+              'name': myteam.move5_1.type.name
+          },
+          'power': myteam.move5_1.power,
+          'accuracy': myteam.move5_1.accuracy,
+          'pp': myteam.move5_1.pp
+      },
+      'move5_2': {
+          'name': myteam.move5_2.name,
+          'type': {
+              'name': myteam.move5_2.type.name
+          },
+          'power': myteam.move5_2.power,
+          'accuracy': myteam.move5_2.accuracy,
+          'pp': myteam.move5_2.pp
+      },
+      'move5_3': {
+          'name': myteam.move5_3.name,
+          'type': {
+              'name': myteam.move5_3.type.name
+          },
+          'power': myteam.move5_3.power,
+          'accuracy': myteam.move5_3.accuracy,
+          'pp': myteam.move5_3.pp
+      },
+      'move5_4': {
+          'name': myteam.move5_4.name,
+          'type': {
+              'name': myteam.move5_4.type.name
+          },
+          'power': myteam.move5_4.power,
+          'accuracy': myteam.move5_4.accuracy,
+          'pp': myteam.move5_4.pp
+      },
+      'pokemon6': {
+          'name': myteam.pokemon6.name,
+      },
+      'ability6': {
+          'name': myteam.ability6.name
+      },
+      'move6_1': {
+          'name': myteam.move6_1.name,
+          'type': {
+              'name': myteam.move6_1.type.name
+          },
+          'power': myteam.move6_1.power,
+          'accuracy': myteam.move6_1.accuracy,
+          'pp': myteam.move6_1.pp
+      },
+      'move6_2': {
+          'name': myteam.move6_2.name,
+          'type': {
+              'name': myteam.move6_2.type.name
+          },
+          'power': myteam.move6_2.power,
+          'accuracy': myteam.move6_2.accuracy,
+          'pp': myteam.move6_2.pp
+      },
+      'move6_3': {
+          'name': myteam.move6_3.name,
+          'type': {
+              'name': myteam.move6_3.type.name
+          },
+          'power': myteam.move6_3.power,
+          'accuracy': myteam.move6_3.accuracy,
+          'pp': myteam.move6_3.pp
+      },
+      'move6_4': {
+          'name': myteam.move6_4.name,
+          'type': {
+              'name': myteam.move6_4.type.name
+          },
+          'power': myteam.move6_4.power,
+          'accuracy': myteam.move6_4.accuracy,
+          'pp': myteam.move6_4.pp
+      }
+  }
+
 
   team_json = json.dumps(team_data)
 

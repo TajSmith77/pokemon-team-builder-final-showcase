@@ -9,13 +9,13 @@
 <h1 style="text-align:center">{{myteam.name}} Members</h2>
 
     <span class="editdelete">
-        <a href="{% url 'update_team' myteam.id %}"><button>Edit</button></a>
+        <a href="{% url 'update_team' myteam.id %}"><button id="edit_team_button">Edit</button></a>
         <form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
         {% csrf_token %}
-        <a href="{% url 'delete_team' myteam.id %}"><button type="submit" class="btn btn-danger delete-btn">Delete</button></a>
+        <a href="{% url 'delete_team' myteam.id %}"><button type="submit" class="btn btn-danger delete-btn" id="delete_team_button">Delete</button></a>
         </form>
-        <a href="{% url 'export_team_json' myteam.id %}"><button>Export as JSON</button></a>
-        <a href="{% url 'export_team_csv' myteam.id %}"><button>Export as CSV</button></a>
+        <a href="{% url 'export_team_json' myteam.id %}"><button id="export_team_json_button">Export as JSON</button></a>
+        <a href="{% url 'export_team_csv' myteam.id %}"><button id="export_team_csv_button">Export as CSV</button></a>
     </span>
     <ul>
         <div class ="mycard{{ myteam.pokemon1.types.all.0.name }}">
@@ -162,7 +162,7 @@
             </li>
         </div>
     </ul>
-    <a href="{% url 'teams' %}"><button>Back</button></a>
+    <a href="{% url 'teams' %}"><button>Back to teams</button></a>
 
 
 
@@ -174,6 +174,9 @@
                 const formID = this.parentNode.id;
                 const form = document.getElementById(formID);
                 form.submit();
+            }
+            else {
+                event.preventDefault();
             }
         });
     });
