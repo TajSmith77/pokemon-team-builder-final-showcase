@@ -13,7 +13,7 @@ Welcome to the Pokemon Team Builder App! This web application allows users to cr
 ### Pokemon Database
 - **All Pokemon Page:** Browse through a comprehensive list of Pokemon with pagination, filtering, and searching capabilities.
 - **Pokemon Details:** View detailed information about each Pokemon, including typing, abilities, stats, and moves.
--**All Moves Page:** Dive into all the moves a available for pokemon to learn with pagination, filtering, and searching capabilities.
+- **All Moves Page:** Dive into all the moves a available for pokemon to learn with pagination, filtering, and searching capabilities.
 - **Move Details:** Explore information about each move, such as type, power, accuracy, and PP.
 
 ### Team Management
