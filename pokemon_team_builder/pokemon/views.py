@@ -690,6 +690,31 @@ def export_team_csv(request, id):
   writer.writerow(team_data.values())
   return response
 
+def export_team_pokemon_showdown(request, id):
+    myteam = get_object_or_404(Team, id=id, owner=request.user)
+    showdown_team = ""
+    for i in range(1, 7):
+        pokemon = myteam.__getattribute__(f'pokemon{i}')
+        if pokemon:
+            showdown_team += f'{pokemon.name}\n'
+
+            ability = myteam.__getattribute__(f'ability{i}')
+            if ability:
+                    showdown_team += f'Ability: {ability.name}\n'
+
+            for j in range(1, 5):
+                move = myteam.__getattribute__(f'move{i}_{j}')
+                if move:
+                    showdown_team += f'- {move.name}\n'
+
+            showdown_team += '\n'
+    print(showdown_team)
+    response = HttpResponse(showdown_team, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{myteam.name}_team.txt"'
+    return response
+        
+  
+
 def testing(request):
   template = loader.get_template('template.html')
   context = {

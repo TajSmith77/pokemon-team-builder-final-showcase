@@ -16,6 +16,7 @@
         </form>
         <a href="{% url 'export_team_json' myteam.id %}"><button id="export_team_json_button">Export as JSON</button></a>
         <a href="{% url 'export_team_csv' myteam.id %}"><button id="export_team_csv_button">Export as CSV</button></a>
+        <a href="{% url 'export_team_pokemon_showdown' myteam.id %}"><button id="export_team_pokemon_showdown_button">Export for Pokemon Showdown</button></a>
     </span>
     <ul>
         <div class ="mycard{{ myteam.pokemon1.types.all.0.name }}">

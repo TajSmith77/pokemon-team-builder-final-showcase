@@ -18,6 +18,7 @@ urlpatterns = [
     path('teams/details/<int:id>/update_team/', views.update_team, name='update_team'),
     path('teams/details/<int:id>/export_team_json/', views.export_team_json, name='export_team_json'),
     path('teams/details/<int:id>/export_team_csv/', views.export_team_csv, name='export_team_csv'),
+    path('teams/details/<int:id>/export_team_pokemon_showdown/', views.export_team_pokemon_showdown, name='export_team_pokemon_showdown'),
     path('get_pokemon_data/<int:pokemon_id>/', views.get_pokemon_data, name='get_pokemon_data'),
     path('testing/', views.testing, name='testing'),
     path('accounts/login/', views.login_redirect, name='login_redirect'),
