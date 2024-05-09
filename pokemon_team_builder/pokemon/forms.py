@@ -10,7 +10,7 @@ class TeamForm(forms.ModelForm):
             'pokemon3','ability3','move3_1','move3_2','move3_3','move3_4',
             'pokemon4','ability4','move4_1','move4_2','move4_3','move4_4',
             'pokemon5','ability5','move5_1','move5_2','move5_3','move5_4',
-            'pokemon6','ability6','move6_1','move6_2','move6_3','move6_4',]
+            'pokemon6','ability6','move6_1','move6_2','move6_3','move6_4', 'is_public']
 
     def __init__(self, *args, **kwargs):
         super(TeamForm, self).__init__(*args, **kwargs)
@@ -53,6 +53,7 @@ class TeamForm(forms.ModelForm):
             self.fields['move6_2'].initial = instance.move6_2
             self.fields['move6_3'].initial = instance.move6_3
             self.fields['move6_4'].initial = instance.move6_4
+            self.fields['is_public'].initial = instance.is_public
 
 
 class UserEditForm(forms.ModelForm):

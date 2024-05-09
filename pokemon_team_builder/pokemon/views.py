@@ -307,6 +307,14 @@ def teams_details(request, id):
   }
   return HttpResponse(template.render(context, request))
 
+def community(request):
+  myteams = Team.objects.all().filter(is_public=True)
+  template = loader.get_template('community.html')
+  context = {
+      'myteams': myteams
+  }
+  return HttpResponse(template.render(context, request))
+
 def create_team(request):
   all_pokemon = Pokemon.objects.all().prefetch_related('abilities', 'moves')
   all_abilities = Ability.objects.all().prefetch_related('pokemon')

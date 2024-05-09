@@ -11,6 +11,7 @@ urlpatterns = [
     path('pokemon/details/<int:id>/', views.poke_details, name='poke_details'),
     path('moves/', views.moves, name='moves'),  
     path('moves/<int:id>/', views.move_details, name='move_details'),
+    path('community/', views.community, name='community'),
     path('teams/', views.teams, name='teams'),
     path('teams/details/<int:id>/', views.teams_details, name='teams_details'),
     path('teams/create_team/', views.create_team, name='create_team'),

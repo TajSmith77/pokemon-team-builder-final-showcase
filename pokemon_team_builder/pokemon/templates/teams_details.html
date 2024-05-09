@@ -6,14 +6,15 @@
 
 {% block content %}
 
-<h1 style="text-align:center">{{myteam.name}} Members</h2>
-
+<h1 style="text-align:center">{{myteam.name}} Members</h1>
     <span class="editdelete">
-        <a href="{% url 'update_team' myteam.id %}"><button id="edit_team_button">Edit</button></a>
-        <form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
-        {% csrf_token %}
-        <a href="{% url 'delete_team' myteam.id %}"><button type="submit" class="btn btn-danger delete-btn" id="delete_team_button">Delete</button></a>
-        </form>
+        {% if myteam.owner == request.user %}
+            <a href="{% url 'update_team' myteam.id %}"><button id="edit_team_button">Edit</button></a>
+            <form id="delete_team_{{myteam.id}}" method="post" action="{% url 'delete_team' myteam.id %}"> 
+            {% csrf_token %}
+            <a href="{% url 'delete_team' myteam.id %}"><button type="submit" class="btn btn-danger delete-btn" id="delete_team_button">Delete</button></a>
+            </form>
+        {% endif %}
         <a href="{% url 'export_team_json' myteam.id %}"><button id="export_team_json_button">Export as JSON</button></a>
         <a href="{% url 'export_team_csv' myteam.id %}"><button id="export_team_csv_button">Export as CSV</button></a>
         <a href="{% url 'export_team_pokemon_showdown' myteam.id %}"><button id="export_team_pokemon_showdown_button">Export for Pokemon Showdown</button></a>
@@ -164,6 +165,8 @@
         </div>
     </ul>
     <a href="{% url 'teams' %}"><button>Back to teams</button></a>
+    <a href="{% url 'community' %}"><button>Back to community</button></a>
+
 
 
 

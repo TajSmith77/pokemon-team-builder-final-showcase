@@ -80,6 +80,7 @@ class Team(models.Model):
     move6_2 = models.ForeignKey(Move, on_delete=models.CASCADE, related_name='move6_2', null=True)
     move6_3 = models.ForeignKey(Move, on_delete=models.CASCADE, related_name='move6_3', null=True)
     move6_4 = models.ForeignKey(Move, on_delete=models.CASCADE, related_name='move6_4', null=True)
+    is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

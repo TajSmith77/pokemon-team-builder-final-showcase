@@ -12,8 +12,8 @@ class TestPokemonApp(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome(options=webdriver.ChromeOptions().add_experimental_option("detach", True))
-        #self.driver.get("http://127.0.0.1:8000")
-        self.driver.get("http://pokemonteambuilder-env-2.eba-dimafhn3.us-east-2.elasticbeanstalk.com/home/")
+        self.driver.get("http://127.0.0.1:8000")
+        #self.driver.get("http://pokemonteambuilder-env-2.eba-dimafhn3.us-east-2.elasticbeanstalk.com/home/")
 
     def tearDown(self):
         self.driver.quit()
@@ -486,6 +486,8 @@ class TestPokemonApp(unittest.TestCase):
         self.assertEqual(self.driver.title, "Create Team")
         name_input = self.driver.find_element(By.NAME, "name")
         name_input.send_keys("test team")
+        public_checkbox = self.driver.find_element(By.NAME, "is_public")
+        public_checkbox.click()
         pokemon1_dropdown = self.driver.find_element(By.ID, "id_pokemon1")
         pokemon1_dropdown.click()
         pokemon1_option = pokemon1_dropdown.find_elements(By.TAG_NAME, "option")[1]
@@ -639,9 +641,16 @@ class TestPokemonApp(unittest.TestCase):
         create_team_button = self.driver.find_element(By.NAME, "CreateTeam")
         create_team_button.click()
         self.assertEqual(self.driver.title, "test team Details")
+        community_nav = self.driver.find_element(By.LINK_TEXT, "COMMUNITY")
+        community_nav.click()
+        self.assertEqual(self.driver.title, "Community")
+        team_item = self.driver.find_element(By.PARTIAL_LINK_TEXT, "test team By: Seleniumtestuser")
+        team_item.click()
         edit_team_button = self.driver.find_element(By.ID, "edit_team_button")
         edit_team_button.click()
         self.assertEqual(self.driver.title, "Edit Team")
+        public_checkbox = self.driver.find_element(By.NAME, "is_public")
+        public_checkbox.click()
         pokemon1_dropdown = self.driver.find_element(By.ID, "id_pokemon1")
         pokemon1_dropdown.click()
         pokemon1_option = pokemon1_dropdown.find_elements(By.TAG_NAME, "option")[5]
@@ -649,6 +658,15 @@ class TestPokemonApp(unittest.TestCase):
         submit_team_button = self.driver.find_element(By.ID, "edit_team_submit_button")
         submit_team_button.click()
         self.assertEqual(self.driver.find_element(By.TAG_NAME, "h1").text, "test team Members", )
+        community_nav = self.driver.find_element(By.LINK_TEXT, "COMMUNITY")
+        community_nav.click()
+        self.assertEqual(self.driver.title, "Community")
+        teams_nav = self.driver.find_element(By.LINK_TEXT, "TEAMS")
+        teams_nav.click()
+        self.assertEqual(self.driver.title, "Teams")
+        team_item = self.driver.find_element(By.PARTIAL_LINK_TEXT, "test team")
+        team_item.click()
+        self.assertEqual(self.driver.title, "test team Details")
         delete_team_button = self.driver.find_element(By.ID, "delete_team_button")
         delete_team_button.click()
         alert = WebDriverWait(self.driver, 10).until(EC.alert_is_present())
