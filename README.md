@@ -24,6 +24,9 @@ Welcome to the Pokemon Team Builder App! This web application allows users to cr
 - **Delete Team:** Delete unwanted teams from the user's profile.
 - **Export Team:** Export teams as CSV, JSON, or TXT files for importing into Pokemon Showdown.
 
+### Community Showcase
+- **Community Page:** View a list of all public user-created teams and export them.
+
 ## Getting Started
 To get started with the Pokemon Team Builder App visit this website: [Pokemon Team Builder](http://pokemonteambuilder-env-2.eba-dimafhn3.us-east-2.elasticbeanstalk.com/home/)
 
