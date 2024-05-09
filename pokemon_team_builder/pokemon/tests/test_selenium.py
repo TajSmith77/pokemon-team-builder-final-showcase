@@ -12,7 +12,8 @@ class TestPokemonApp(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome(options=webdriver.ChromeOptions().add_experimental_option("detach", True))
-        self.driver.get("http://127.0.0.1:8000")
+        #self.driver.get("http://127.0.0.1:8000")
+        self.driver.get("http://pokemonteambuilder-env-2.eba-dimafhn3.us-east-2.elasticbeanstalk.com/home/")
 
     def tearDown(self):
         self.driver.quit()

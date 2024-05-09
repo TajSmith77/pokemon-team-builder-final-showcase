@@ -25,10 +25,7 @@ Welcome to the Pokemon Team Builder App! This web application allows users to cr
 - **Export Team:** Export teams as CSV, JSON, or TXT files for importing into Pokemon Showdown.
 
 ## Getting Started
-
-To get started with the Pokemon Team Builder App visit this website: 
-
-
+To get started with the Pokemon Team Builder App visit this website: http://pokemonteambuilder-env-2.eba-dimafhn3.us-east-2.elasticbeanstalk.com/home/
 
 ## Technologies Used
 
