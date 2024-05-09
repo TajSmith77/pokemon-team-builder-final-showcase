@@ -32,6 +32,7 @@ To get started with the Pokemon Team Builder App visit this website: http://poke
 - **Django:** Backend framework for building the web application.
 - **HTML/CSS/JavaScript:** Frontend technologies for creating the user interface.
 - **Bootstrap:** Frontend framework for responsive design and styling.
+- **PostgreSQL:** Relational database management system used for storing app data.
 - **AWS Elastic Beanstalk:** Deployment platform for hosting the application.
 - **AWS RDS:** Relational database service for storing app data.
 - **Selenium:** Testing framework for automated browser testing.
